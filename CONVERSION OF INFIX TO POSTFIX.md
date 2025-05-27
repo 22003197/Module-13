@@ -1,40 +1,78 @@
 # Exp.No:32  
-## CONVERSION OF INFIX TO POSTFIX
 
----
+## AIM:
 
-### AIM  
-To write a Python program to convert a given Infix expression to Postfix expression by following the precedence and associative rules. The input expression contains only Division, Subtraction, and Bitwise AND operators. A dictionary is used to set the priority for operators, and a set is used to hold the operators used in the given expression.
+To write a Python program that evaluates a postfix expression using a stack, where the expression can contain two-digit numbers and basic binary operators
 
----
+## ALGORITHM:
 
-### ALGORITHM
+Step 1: Start the program.
 
-1. **Start the program.**
-2. **Initialize an empty stack** and an empty output string.
-3. **Iterate through each character** in the infix expression:
-   - If the character is **not an operator**, append it directly to the output string.
-   - If the character is an **open parenthesis '('**, push it onto the stack.
-   - If the character is a **close parenthesis ')'**, pop from the stack and append to the output until encountering a left parenthesis '('.
-   - If the character is an **operator**, handle it based on precedence:
-     - While there’s an operator at the top of the stack with higher or equal precedence, pop the stack and append those operators to the output.
-     - Push the current operator onto the stack.
-4. **Use a priority dictionary** to define operator precedence, ensuring higher precedence operators are placed before lower precedence ones.
-5. Once the expression is fully processed, continue popping any remaining operators from the stack and append them to the output.
-6. **Return the final postfix expression.**
-7. **Print the result.**
-8. **End the program.**
+Step 2: Split the input postfix expression into a list of tokens (numbers and operators).
 
----
+Step 3: Initialize an empty stack.
 
-### PROGRAM
+Step 4: If the token is a number, push it onto the stack.
 
-```
+Step 5: If the token is an operator:
+
+a) Pop the top two numbers from the stack.
+
+b) Apply the operator on them (second popped first, then first popped).
+
+c) Push the result back onto the stack.
+
+Step 6: After processing all tokens, the final result is at the top of the stack.
+
+Step 7: Stop the program.
+
+# PROGRAM: 
 
 ```
+OPERATORS=set(['*','-','+','/'])
 
-### OUTPUT
+def string_conv(str):
+    l=[]
+    for i in range (0,len(str)):
+        if (str[i].isdigit() and str[i+1]=='.' and str[i+2].isdigit()):
+            st=str[i]+str[i+1]+str[i+2]
+            l.append(st)
+        elif (str[i] in OPERATORS):
+            l.append(str[i])
+    return l;
+    
+def evaluate_postfix(expression):
+    exp=string_conv(expression)
+    stack=[] 
+    for i in expression:
+        if i not in OPERATORS:
+            stack.append(i)
+        else:
+            a=stack.pop()
+            b=stack.pop()
+            
+            if i=='*':
+                res=int(b)*int(a)
+            elif i=='+':
+                res=int(b)+int(a)
+            elif i=='-':
+                res=int(b)-int(a)
+            elif i=='/':
+                res=int(b)/int(a)
+            stack.append(res)
+    return stack[0]
+
+m = input()
+print("postfix expression: ",m)
+n=m.split()
+print("Evaluation result: ",evaluate_postfix(n))
+```
+# OUTPUT:
+
+![image](https://github.com/user-attachments/assets/583007aa-9431-4425-a5c1-dcc8b5f7f61e)
 
 
-### RESULT
+# RESULT:
+
+Thus, Evaluation of postfix expression using a stack by pushing operands and applying operators in order proved successfully.
 
